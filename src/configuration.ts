@@ -6,19 +6,24 @@ import { TypegooseModule } from 'nestjs-typegoose';
 
 import { roles } from './roles';
 
-export const Configuration = [
+export const AppImports = [
   ConfigModule.forRoot({ isGlobal: true }),
   GraphQLModule.forRoot({
     autoSchemaFile: 'schema-generated.gql',
+    playground: true,
+    debug: true,
+    introspection: true,
   }),
   TypegooseModule.forRootAsync({
     imports: [ConfigModule],
     useFactory: async (config: ConfigService) => ({
-      uri: config.get<string>('MONGO_URI', process.env.MONGO_URI),
+      uri: config.get<string>('MONGO_URL', process.env.MONGO_URL),
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
+      retryWrites: false,
+      dbName: 'dev',
     }),
     inject: [ConfigService],
   }),
