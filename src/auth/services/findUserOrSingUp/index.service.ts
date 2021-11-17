@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { CreateUserInput } from 'src/users/dto/create-user.input';
-import { User } from 'src/users/entities/user.entity';
+import { Users } from 'src/users/entities/user.entity';
 import { CreateUserService } from 'src/users/services/create/index.service';
 import { FindOneUserByEmailService } from 'src/users/services/findByEmail/index.service';
 
@@ -12,12 +12,10 @@ export class FindUserOrSignUpAuthService {
     private readonly createUsersService: CreateUserService,
   ) {}
 
-  async findUserOrSignUp(userInput: CreateUserInput): Promise<User> {
+  async findUserOrSignUp(userInput: CreateUserInput): Promise<Users> {
     const user = await this.findOneUsersService.findOneByEmail(userInput.email);
 
-    if (!user) {
-      return this.createUsersService.create(userInput);
-    }
+    if (!user) return await this.createUsersService.create(userInput);
 
     return user;
   }
