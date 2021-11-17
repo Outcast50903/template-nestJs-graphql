@@ -3,20 +3,24 @@ import { ReturnModelType } from '@typegoose/typegoose';
 import { InjectModel } from 'nestjs-typegoose';
 
 import { CreateUserInput } from 'src/users/dto/create-user.input';
-import { User } from 'src/users/entities/user.entity';
+import { Users } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class CreateUserService {
   constructor(
-    @InjectModel(User)
-    private readonly userModel: ReturnModelType<typeof User>,
+    @InjectModel(Users)
+    private readonly userModel: ReturnModelType<typeof Users>,
   ) {}
 
-  async create(createUserInput: CreateUserInput): Promise<User> {
-    const newEmployee = new this.userModel(createUserInput);
+  async create(createUserInput: CreateUserInput): Promise<Users> {
+    console.log(createUserInput);
 
-    newEmployee.googleId = null;
+    const newClient = new this.userModel(createUserInput);
 
-    return newEmployee.save();
+    newClient.googleId ??= null;
+
+    console.log(newClient);
+
+    return newClient.save();
   }
 }

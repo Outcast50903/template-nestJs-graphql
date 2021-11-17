@@ -3,13 +3,13 @@ import { ReturnModelType } from '@typegoose/typegoose';
 import { ApolloError } from 'apollo-server-express';
 import { InjectModel } from 'nestjs-typegoose';
 
-import { CurrentUser, User } from 'src/users/entities/user.entity';
+import { CurrentUser, Users } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class UpdateUserService {
   constructor(
-    @InjectModel(User)
-    private readonly userModel: ReturnModelType<typeof User>,
+    @InjectModel(Users)
+    private readonly userModel: ReturnModelType<typeof Users>,
   ) {}
 
   async update(
@@ -17,7 +17,7 @@ export class UpdateUserService {
     updateObj: Record<string, any>,
     options: Record<string, any>,
     currentUser: CurrentUser,
-  ): Promise<User> {
+  ): Promise<Users> {
     const finalOptions = {
       ...options,
       new: true,
