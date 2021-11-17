@@ -1,10 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { ApolloError } from 'apollo-server-express';
 import { OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
 
 import { FindUserOrSignUpAuthService } from 'src/auth/services/findUserOrSingUp/index.service';
 import { CreateUserInput } from 'src/users/dto/create-user.input';
-import { User } from 'src/users/entities/user.entity';
+import { Users } from 'src/users/entities/user.entity';
 
 import { GOOGLE_OAUTH } from '../../creteGoogleOauth';
 
@@ -13,20 +14,21 @@ export class GetUserFromCodeGoogleService {
   constructor(
     @Inject(GOOGLE_OAUTH)
     private readonly googleOAuthClient: () => OAuth2Client,
-    private readonly authService: FindUserOrSignUpAuthService,
+    private readonly findUserOrSignUpAuthService: FindUserOrSignUpAuthService,
   ) {}
 
-  async getUserFromCode(code: string): Promise<User> {
+  async getUserFromCode(code: string): Promise<Users> {
     const userInput = await this.getUserInputFromCode(code);
 
     if (!userInput) return null;
 
-    return this.authService.findUserOrSignUp(userInput);
+    return this.findUserOrSignUpAuthService.findUserOrSignUp(userInput);
   }
 
   private async getUserInputFromCode(code: string): Promise<CreateUserInput> {
     try {
       const client = this.googleOAuthClient();
+
       const { tokens } = await client.getToken({
         code,
         client_id: process.env.GOOGLE_CLIENT_ID,
@@ -48,10 +50,9 @@ export class GetUserFromCodeGoogleService {
         lastName: userInfo.family_name,
       };
     } catch (err) {
-      console.log('error');
-      console.log(err);
+      throw new ApolloError('Error al obtener el usuario :/', null, {
+        describe: 'Por favor verifique los datos ingresados',
+      });
     }
-
-    return null;
   }
 }

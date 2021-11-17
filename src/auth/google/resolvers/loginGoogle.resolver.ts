@@ -10,7 +10,7 @@ import { GetUserFromCodeGoogleService } from '../services/getUser/index.service'
 export class LoginGoogleResolver {
   constructor(
     private readonly googleService: GetUserFromCodeGoogleService,
-    private readonly authService: LoginAuthService,
+    private readonly loginAuthService: LoginAuthService,
   ) {}
 
   @Mutation(() => Token)
@@ -19,6 +19,6 @@ export class LoginGoogleResolver {
 
     if (!user) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
 
-    return this.authService.login(user);
+    return this.loginAuthService.login(user);
   }
 }
