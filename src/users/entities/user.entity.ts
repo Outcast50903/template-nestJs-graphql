@@ -11,11 +11,11 @@ import { Roles } from 'src/roles';
 
 registerEnumType(Roles, {
   name: 'Roles',
-  description: 'User role for permissions',
+  description: 'Users role for permissions',
 });
 
 @ObjectType()
-export class User {
+export class Users {
   @Field(() => ID)
   id!: string;
 
@@ -23,10 +23,10 @@ export class User {
   email: string;
 
   @HideField()
-  @prop({ required: true })
+  @prop()
   password?: string;
 
-  @prop({ required: true })
+  @prop()
   googleId?: string;
 
   @prop()
@@ -41,8 +41,11 @@ export class User {
   @Field(() => Date)
   updatedAt: Date;
 
+  @Field(() => Date)
+  deleteAt?: Date;
+
   @prop({ type: String, enum: Roles, default: Roles.USER })
   roles?: Roles[];
 }
 
-export type CurrentUser = Omit<User, '_id' | '__v'>;
+export type CurrentUser = Omit<Users, '_id' | '__v'>;

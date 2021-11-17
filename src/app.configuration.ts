@@ -19,9 +19,9 @@ export const AppImports = [
     useFactory: async (config: ConfigService) => ({
       uri: config.get<string>('MONGO_URL', process.env.MONGO_URL),
       useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
+      // useCreateIndex: true,
+      // useUnifiedTopology: true,
+      // useFindAndModify: false,
       retryWrites: false,
       dbName: 'dev',
     }),
