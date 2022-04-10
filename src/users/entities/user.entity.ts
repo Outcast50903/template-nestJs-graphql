@@ -19,6 +19,9 @@ export class Users {
   @Field(() => ID)
   id!: string;
 
+  _id: string;
+
+  @Field(() => String)
   @prop({ unique: true })
   email: string;
 
@@ -26,12 +29,15 @@ export class Users {
   @prop()
   password?: string;
 
+  @HideField()
   @prop()
   googleId?: string;
 
+  @Field(() => String)
   @prop()
   firstName?: string;
 
+  @Field(() => String)
   @prop()
   lastName?: string;
 
@@ -44,6 +50,7 @@ export class Users {
   @Field(() => Date)
   deleteAt?: Date;
 
+  @Field(() => Roles)
   @prop({ type: String, enum: Roles, default: Roles.USER })
   roles?: Roles[];
 }

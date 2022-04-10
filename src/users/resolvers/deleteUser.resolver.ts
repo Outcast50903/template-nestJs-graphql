@@ -13,7 +13,7 @@ export class DeleteUserResolver {
   constructor(private readonly deleteUserService: DeleteUsersService) {}
 
   @Mutation(() => Users)
-  deleteEmployee(
+  deleteUser(
     @Args('id', { type: () => ID }) id: string,
     @CurrentUserParam() currentUser: CurrentUser,
   ): Promise<Users> {

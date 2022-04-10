@@ -11,6 +11,8 @@ export class CleanUsersService {
     const renameToId = (user: Users): Users => {
       const id = prop('_id', user);
 
+      user._id ||= '';
+
       return assoc('id', id, user);
     };
 

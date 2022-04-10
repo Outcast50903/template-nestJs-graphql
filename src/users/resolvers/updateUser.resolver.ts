@@ -1,6 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
-import { dissoc } from 'ramda';
+import { hashSync } from 'bcryptjs';
+import { omit } from 'ramda';
 
 import { GqlAuthGuard } from 'src/auth/guards/graphqlAuth.guard';
 import { CurrentUserParam } from 'src/helpers/decorators/currentUserParam';
@@ -15,13 +16,16 @@ export class UpdateUserResolver {
   constructor(private readonly updateUserService: UpdateUserService) {}
 
   @Mutation(() => Users)
-  updateEmployee(
-    @Args('updateEmployeeInput') updateUserInput: UpdateUserInput,
+  updateUser(
+    @Args('updateUserInput') updateUserInput: UpdateUserInput,
     @CurrentUserParam() currentUser: CurrentUser,
   ): Promise<Users> {
+    updateUserInput.password &&
+      (updateUserInput.password = hashSync(updateUserInput.password, 10));
+
     return this.updateUserService.update(
       updateUserInput.id,
-      { $set: dissoc(['id'], updateUserInput) },
+      { $set: omit(['id'], updateUserInput) },
       null,
       currentUser,
     );

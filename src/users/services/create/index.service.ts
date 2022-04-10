@@ -13,13 +13,9 @@ export class CreateUserService {
   ) {}
 
   async create(createUserInput: CreateUserInput): Promise<Users> {
-    console.log(createUserInput);
-
     const newClient = new this.userModel(createUserInput);
 
     newClient.googleId ??= null;
-
-    console.log(newClient);
 
     return newClient.save();
   }

@@ -19,8 +19,12 @@ export class LoginAppResolver {
   ): Promise<Token> {
     const user = await this.validateUser.validateAppUser(input);
 
-    if (!user) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    if (!user)
+      throw new HttpException(
+        'El correo o contraseña ingresado son erroneos',
+        HttpStatus.UNAUTHORIZED,
+      );
 
-    return this.loginAuthService.login(user);
+    return await this.loginAuthService.login(user);
   }
 }

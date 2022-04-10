@@ -12,10 +12,13 @@ export class SignUpAppResolver {
 
   @Mutation(() => Users)
   async signUp(@Args('input') input: CreateUserInput): Promise<Users> {
-    const user = await this.signUpUser.signUp(input);
-
-    if (!user) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
-
-    return user;
+    try {
+      return await this.signUpUser.signUp(input);
+    } catch {
+      throw new HttpException(
+        `El correo ${input.email} ya está registrado`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

@@ -7,6 +7,7 @@ import { CleanUsersService } from './services/clean/index.service';
 import { CreateUserService } from './services/create/index.service';
 import { FindOneUserByEmailService } from './services/findByEmail/index.service';
 import { FindOneUserService } from './services/findOne/index.service';
+import { UpdateUserService } from './services/update/index.service';
 import { userProviders } from './user.provider';
 
 @Module({
@@ -22,6 +23,7 @@ import { userProviders } from './user.provider';
     CleanUsersService,
     FindOneUserByEmailService,
     UpdateUserResolver,
+    UpdateUserService,
   ],
 })
 export class UsersModule {}

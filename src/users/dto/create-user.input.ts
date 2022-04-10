@@ -2,6 +2,7 @@ import { Field, InputType } from '@nestjs/graphql';
 
 @InputType({ isAbstract: true })
 export class CreateUserInput {
+  @Field()
   id?: string;
 
   @Field()

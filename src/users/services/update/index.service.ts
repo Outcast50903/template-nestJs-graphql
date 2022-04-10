@@ -18,27 +18,26 @@ export class UpdateUserService {
     options: Record<string, any>,
     currentUser: CurrentUser,
   ): Promise<Users> {
-    const finalOptions = {
-      ...options,
-      new: true,
-    };
+    try {
+      const finalOptions = {
+        ...options,
+        new: true,
+      };
 
-    const finalQuery = typeof query === 'string' ? { _id: query } : query;
+      const finalQuery = typeof query === 'string' ? { _id: query } : query;
 
-    updateObj.$set ||= {};
-    updateObj.$set.updatedBy = currentUser.id;
+      updateObj.$set ||= {};
+      currentUser && (updateObj.$set.updatedBy = currentUser.id);
 
-    const updatedEmployee = await this.userModel
-      .findOneAndUpdate(finalQuery, updateObj, finalOptions)
-      .exec();
+      // TODO: missing to save registry of update
 
-    // TODO: missing to save registry of update
-
-    if (!updatedEmployee)
+      return await this.userModel
+        .findOneAndUpdate(finalQuery, updateObj, finalOptions)
+        .exec();
+    } catch (error) {
       throw new ApolloError('Error al actualizar el empleado', null, {
         describe: 'Por favor verifique los datos ingresados',
       });
-
-    return updatedEmployee;
+    }
   }
 }
