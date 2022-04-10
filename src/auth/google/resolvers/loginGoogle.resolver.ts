@@ -17,7 +17,11 @@ export class LoginGoogleResolver {
   async googleLogin(@Args('code') code: string): Promise<Token> {
     const user = await this.googleService.getUserFromCode(code);
 
-    if (!user) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    if (!user)
+      throw new HttpException(
+        'Error al iniciar sesión con google',
+        HttpStatus.UNAUTHORIZED,
+      );
 
     return this.loginAuthService.login(user);
   }

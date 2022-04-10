@@ -1,5 +1,5 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import * as bcryptjs from 'bcryptjs';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { compareSync } from 'bcryptjs';
 
 import { Login } from 'src/auth/dto/login.input';
 import { Users } from 'src/users/entities/user.entity';
@@ -12,10 +12,14 @@ export class ValidateAppUserService {
   async validateAppUser({ email, password }: Login): Promise<Users | null> {
     const user = await this.userService.findOneByEmail(email);
 
-    if (!user) throw new UnauthorizedException();
+    if (!user)
+      throw new HttpException(
+        'El usuario ingresado no posee cuenta, porfavor registrese',
+        HttpStatus.NOT_FOUND,
+      );
 
-    const valid = await bcryptjs.compare(password, user.password);
+    const isValid = compareSync(password, user.password);
 
-    return valid ? user : null;
+    return isValid ? user : null;
   }
 }
