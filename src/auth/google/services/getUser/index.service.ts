@@ -27,18 +27,15 @@ export class GetUserFromCodeGoogleService {
 
   private async getUserInputFromCode(code: string): Promise<CreateUserInput> {
     try {
-      const client = this.googleOAuthClient();
+      const oauth2Client = this.googleOAuthClient();
 
-      const { tokens } = await client.getToken({
-        code,
-        client_id: process.env.GOOGLE_CLIENT_ID,
-      });
+      const { tokens } = await oauth2Client.getToken(code);
 
-      client.setCredentials(tokens);
+      oauth2Client.setCredentials(tokens);
 
       const { data: userInfo } = await google
         .oauth2({
-          auth: client,
+          auth: oauth2Client,
           version: 'v2',
         })
         .userinfo.get();
@@ -49,8 +46,8 @@ export class GetUserFromCodeGoogleService {
         firstName: userInfo.given_name,
         lastName: userInfo.family_name,
       };
-    } catch (err) {
-      throw new ApolloError('Error al obtener el usuario :/', null, {
+    } catch {
+      throw new ApolloError('Error al iniciar sesión', null, {
         describe: 'Por favor verifique los datos ingresados',
       });
     }
