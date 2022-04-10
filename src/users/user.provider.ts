@@ -18,4 +18,6 @@ export const userProviders = [
   FindOneUserResolver,
   UpdateUserService,
   DeleteUsersService,
+  UpdateUserResolver,
+  DeleteUserResolver,
 ];
