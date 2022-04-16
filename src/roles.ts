@@ -1,13 +1,22 @@
 import { RolesBuilder } from 'nestjs-role-protected';
 
 export enum Roles {
-  USER = 'USER',
-  ADMIN = 'ADMIN',
+  USER_ROLE = 'USER_ROLE',
+  ADMIN_ROLE = 'ADMIN_ROLE',
 }
 
+const crudAny = {
+  'create:any': ['*'],
+  'read:any': ['*'],
+  'update:any': ['*'],
+  'delete:any': ['*'],
+};
+
 const rolesPermissions = {
-  [Roles.ADMIN]: {},
-  [Roles.USER]: {},
+  [Roles.ADMIN_ROLE]: {
+    User: crudAny,
+  },
+  [Roles.USER_ROLE]: {},
 };
 
 export const roles = new RolesBuilder(rolesPermissions);
