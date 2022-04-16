@@ -20,8 +20,8 @@ scalar DateTime
 
 """Users role for permissions"""
 enum Roles {
-  USER
-  ADMIN
+  USER_ROLE
+  ADMIN_ROLE
 }
 
 type Query {
