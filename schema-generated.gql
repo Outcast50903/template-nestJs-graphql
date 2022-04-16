@@ -26,7 +26,6 @@ enum Roles {
 
 type Query {
   findOneClient(id: ID!): Users!
-  me: Users!
   googleLoginUrl: String!
 }
 
