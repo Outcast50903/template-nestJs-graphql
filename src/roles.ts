@@ -14,7 +14,7 @@ const crudAny = {
 
 const rolesPermissions = {
   [Roles.ADMIN_ROLE]: {
-    User: crudAny,
+    Users: crudAny,
   },
   [Roles.USER_ROLE]: {},
 };
