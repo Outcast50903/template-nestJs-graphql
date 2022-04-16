@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 
-import { SchemaValidationPipe } from './validations/schemaValidationPipe';
+import { SchemaValidationPipe } from './helpers/validations/schemaValidationPipe';
 import { AppModule } from './app.module';
 
 async function bootstrap() {

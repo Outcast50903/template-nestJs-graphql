@@ -2,10 +2,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TerminusModule } from '@nestjs/terminus';
-import { AccessControlModule } from 'nestjs-role-protected';
 import { TypegooseModule } from 'nestjs-typegoose';
-
-import { roles } from './roles';
 
 export const AppImports = [
   ConfigModule.forRoot({ isGlobal: true }),
@@ -29,6 +26,5 @@ export const AppImports = [
     }),
     inject: [ConfigService],
   }),
-  AccessControlModule.forRoles(roles),
   TerminusModule,
 ];
