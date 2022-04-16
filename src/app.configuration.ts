@@ -1,3 +1,4 @@
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TerminusModule } from '@nestjs/terminus';
@@ -8,11 +9,12 @@ import { roles } from './roles';
 
 export const AppImports = [
   ConfigModule.forRoot({ isGlobal: true }),
-  GraphQLModule.forRoot({
+  GraphQLModule.forRoot<ApolloDriverConfig>({
     autoSchemaFile: 'schema-generated.gql',
     playground: true,
     debug: true,
     introspection: true,
+    driver: ApolloDriver,
   }),
   TypegooseModule.forRootAsync({
     imports: [ConfigModule],
