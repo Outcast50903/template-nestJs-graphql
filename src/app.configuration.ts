@@ -2,7 +2,10 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TerminusModule } from '@nestjs/terminus';
+import { CaslModule } from 'nest-casl';
 import { TypegooseModule } from 'nestjs-typegoose';
+
+import { Roles } from './roles';
 
 export const AppImports = [
   ConfigModule.forRoot({ isGlobal: true }),
@@ -25,6 +28,10 @@ export const AppImports = [
       dbName: 'dev',
     }),
     inject: [ConfigService],
+  }),
+  CaslModule.forRoot<Roles>({
+    superuserRole: Roles.ADMIN_ROLE,
+    getUserFromRequest: (request) => request.user,
   }),
   TerminusModule,
 ];

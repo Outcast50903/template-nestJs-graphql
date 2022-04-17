@@ -1,5 +1,8 @@
 import { Module } from '@nestjs/common';
+import { CaslModule } from 'nest-casl';
 import { TypegooseModule } from 'nestjs-typegoose';
+
+import { permissions } from 'src/helpers/permissions/permissions';
 
 import { Users } from './entities/user.entity';
 import { UpdateUserResolver } from './resolvers/updateUser.resolver';
@@ -15,6 +18,7 @@ import { userProviders } from './user.provider';
     TypegooseModule.forFeature([
       { typegooseClass: Users, schemaOptions: { timestamps: true } },
     ]),
+    CaslModule.forFeature({ permissions: permissions(Users) }),
   ],
   providers: [...userProviders],
   exports: [
