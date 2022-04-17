@@ -1,13 +1,15 @@
-import { RolesBuilder } from 'nestjs-role-protected';
+// TODO: Get roles from database?
 
 export enum Roles {
-  USER = 'USER',
-  ADMIN = 'ADMIN',
+  USER_ROLE = 'USER_ROLE',
+  ADMIN_ROLE = 'ADMIN_ROLE',
 }
 
-const rolesPermissions = {
-  [Roles.ADMIN]: {},
-  [Roles.USER]: {},
-};
-
-export const roles = new RolesBuilder(rolesPermissions);
+export enum Actions {
+  Aggregate = 'aggregate',
+  Manage = 'manage',
+  Create = 'create',
+  Read = 'read',
+  Update = 'update',
+  Delete = 'delete',
+}

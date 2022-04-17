@@ -51,7 +51,7 @@ export class Users {
   deleteAt?: Date;
 
   @Field(() => Roles)
-  @prop({ type: String, enum: Roles, default: Roles.USER })
+  @prop({ type: String, enum: Roles, default: Roles.USER_ROLE })
   roles?: Roles[];
 }
 
