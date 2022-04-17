@@ -11,13 +11,13 @@ export class CreateUserInput {
   email: string;
 
   @Field()
-  @IsEmail()
+  @IsString()
   password?: string;
 
   googleId?: string;
 
   @Field()
-  @IsEmail()
+  @IsString()
   firstName?: string;
 
   @Field()
