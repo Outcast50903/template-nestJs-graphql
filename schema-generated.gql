@@ -47,6 +47,7 @@ input UpdateUserInput {
 
 type Token {
   accessToken: String!
+  refreshToken: String!
 }
 
 input Login {
