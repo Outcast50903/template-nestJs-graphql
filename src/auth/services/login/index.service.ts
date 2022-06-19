@@ -5,10 +5,13 @@ import { Token } from 'src/auth/entities/token.entity';
 import { Users } from 'src/users/entities/user.entity';
 import { CleanUsersService } from 'src/users/services/clean/index.service';
 
+import { CreateRefreshTokenService } from '../createRefreshToken/index.service';
+
 @Injectable()
 export class LoginAuthService {
   constructor(
     private readonly cleanUsersService: CleanUsersService,
+    private readonly createRefreshToken: CreateRefreshTokenService,
     private readonly jwt: JwtService,
   ) {}
 
@@ -18,8 +21,14 @@ export class LoginAuthService {
       user: this.cleanUsersService.clean(user),
     };
 
+    const refresh = await this.createRefreshToken.createRefreshToken({
+      user,
+      exp: 2,
+    });
+
     return {
       accessToken: this.jwt.sign(payload),
+      refreshToken: refresh,
     };
   }
 }

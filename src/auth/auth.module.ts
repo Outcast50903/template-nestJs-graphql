@@ -2,9 +2,11 @@ import { forwardRef, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { TypegooseModule } from 'nestjs-typegoose';
 
 import { UsersModule } from 'src/users/users.module';
 
+import { RefreshToken } from './entities/refresh-token.entity';
 import { GoogleModule } from './google/google.module';
 import { FindUserOrSignUpAuthService } from './services/findUserOrSingUp/index.service';
 import { LoginAuthService } from './services/login/index.service';
@@ -27,6 +29,9 @@ import { JwtStrategy } from './jwt.strategy';
       defaultStrategy: 'jwt',
     }),
     UsersModule,
+    TypegooseModule.forFeature([
+      { typegooseClass: RefreshToken, schemaOptions: { timestamps: true } },
+    ]),
     forwardRef(() => GoogleModule),
   ],
   providers: [...authProviders, JwtStrategy],
